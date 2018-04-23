@@ -3,10 +3,10 @@
 A Raspberry Pi project which will combine a live BTC chart, with GDAX API to determine price and change LEDs and a stepper motor accordingly. 
 
 
-## Uses a Raspberry Pi 3+ to run the LCD screen, LEDs, and Stepper motor
-## Built with Node.js
-## Uses the Node.js 'onoff' library to control GPIO output for LEDs
-## Uses the GDAX API to recieve BTC historical and current price action
+- Uses a Raspberry Pi 3+ to run the LCD screen, LEDs, and Stepper motor
+- Built with Node.js
+- Uses the Node.js 'onoff' library to control GPIO output for LEDs
+- Uses the GDAX API to recieve BTC historical and current price action
 
 # Concept: This project will provide a visual alert of current BTC price action
 
