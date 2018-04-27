@@ -1,7 +1,5 @@
-import { write } from 'fs';
-
 var Gpio = require('onoff').Gpio;
-var LEDRed = new Gpio(13,'out');
+var LEDRed = new Gpio(26,'out');
 var LEDGreen = new Gpio(20, 'out');
 var LEDRed2 = new Gpio(19,'out');
 var LEDGreen2 = new Gpio(21, 'out');
@@ -130,4 +128,3 @@ function cleanUpBlinking(){
 }
  
 // LED FUNCTIONS ________________________________________________________________________________________________
- 

@@ -3,7 +3,7 @@ var btcClient = new Gdax.PublicClient();
 console.log('Created GDAX Bitcoin Client');
  
 var Gpio = require('onoff').Gpio;
-var LEDRed = new Gpio(13,'out');
+var LEDRed = new Gpio(26,'out');
 var LEDGreen = new Gpio(20, 'out');
 var LEDRed2 = new Gpio(19,'out');
 var LEDGreen2 = new Gpio(21, 'out');
@@ -18,7 +18,10 @@ var pinIN4 = 16;
 var motor = stepperWiringPi.setup(200, pinIN1, pinIN2, pinIN3, pinIN4);
 motor.setSpeed(0);
 console.log('Established Stepper Motor GPIO Layout and setup');
- 
+
+var blinkIntervalGreen;
+var blinkIntervalRed;
+
 console.log('API call in 10 seconds');
 var APICALL = setInterval(getBitcoinInformation, 10000);
  
@@ -89,52 +92,55 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
     console.log('Bitcoin Price 24 Hours Ago:  ', openCandleOneHour);
     console.log('Bitcoin has moved ' + btcPercentChange + '% in 24 hours' );
  
-    if (btcPercentChange >= 5) {
+    if (Math.abs(btcPercentChange) >= 5) {
         if (openCandleCurrent > openCandleOneHour) {
             motor.forward();
-            motor.setSpeed(200);
+            motor.setSpeed(120);
+            console.log('Motor Speed changed here 1');
             LEDGreenFlash();
         } else {
             motor.backward();
-            motor.setSpeed(200);
+            motor.setSpeed(120);
+            console.log('Motor Speed changed here 2');
             LEDRedFlash();
         };
     } else {
+ 
         if (openCandleCurrent > openCandleOneHour) {
             motor.forward();
-            motor.setSpeed(100);
+            motor.setSpeed(60);
+            console.log('Motor Speed changed here 3');
             LEDGreenOn();
         } else {
             motor.forward();
-            motor.setSpeed(100);
+            motor.setSpeed(60);
+            console.log('Motor Speed changed here 4');
             LEDRedOn();
         };
     }
- 
 };
- 
 // Calculate Percentage and Turn motor/Turn on LED END________________________________________________________________________________________________
  
- 
 // LED FLASH BY COLOR ________________________________________________________________________________________________
- 
 function LEDGreenFlash(){
     console.log('BTC is Over 5% Up');
-    if (LEDGreen.readSync() === 1 | LEDGreen2.readSync() === 1){return} 
-    var blinkInterval = setInterval(blinkLEDGreen, 250);
+    cleanUpBlinking();
+    LEDRed.writeSync(0);
+    LEDRed2.writeSync(0);
+    blinkIntervalGreen = setInterval(blinkLEDGreen, 250);
 };
  
 function LEDRedFlash(){
     console.log('BTC is Over 5% Down');
-    if (LEDRed.readSync() === 1 | LEDRed2.readSync() === 1){return}
-    var blinkInterval = setInterval(blinkLEDRed, 250); 
+    cleanUpBlinking();
+    LEDGreen.writeSync(0);
+    LEDGreen2.writeSync(0);
+    blinkIntervalRed = setInterval(blinkLEDRed, 250);
 };
  
 // LED FLASH BY COLOR ________________________________________________________________________________________________
- 
-// LED FUNCTIONS ________________________________________________________________________________________________
- 
 function LEDGreenOn(){
+    cleanUpBlinking();
     LEDGreen.writeSync(1);
     LEDRed.writeSync(0);
     LEDGreen2.writeSync(1);
@@ -143,13 +149,14 @@ function LEDGreenOn(){
 };
  
 function LEDRedOn(){
+    cleanUpBlinking();
     LEDGreen.writeSync(0);
     LEDRed.writeSync(1);
     LEDGreen2.writeSync(0);
     LEDRed2.writeSync(1);
     console.log('BTC is 1-5% Down')
 };
-
+ 
 function blinkLEDGreen() {
     if (LEDGreen.readSync() === 0) {
         LEDGreen.writeSync(1);
@@ -159,7 +166,7 @@ function blinkLEDGreen() {
         LEDGreen2.writeSync(1);
     }
 };
-
+ 
 function blinkLEDRed() {
     if (LEDRed.readSync() === 0) {
         LEDRed.writeSync(1);
@@ -173,5 +180,12 @@ function blinkLEDRed() {
     }
 };
  
-// LED FUNCTIONS ________________________________________________________________________________________________
+// LED FUNCTIONS
+function cleanUpBlinking(){
+    clearInterval(blinkIntervalGreen);
+    blinkIntervalGreen = null;
+    clearInterval(blinkIntervalRed);
+    blinkIntervalRed = null;
+}
  
+// LED FUNCTIONS ________________________________________________________________________________________________
