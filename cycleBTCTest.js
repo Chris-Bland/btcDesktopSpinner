@@ -1,3 +1,5 @@
+import { write } from 'fs';
+
 var Gpio = require('onoff').Gpio;
 var LEDRed = new Gpio(13,'out');
 var LEDGreen = new Gpio(20, 'out');
@@ -64,12 +66,16 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
 function LEDGreenFlash(){
     console.log('BTC is Over 5% Up');
     cleanUpBlinking();
+    LEDRed.writeSync(0);
+    LEDRed2.writeSync(0);
     blinkIntervalGreen = setInterval(blinkLEDGreen, 250);
 };
  
 function LEDRedFlash(){
     console.log('BTC is Over 5% Down');
     cleanUpBlinking();
+    LEDGreen.writeSync(0);
+    LEDGreen2.writeSync(0);
     blinkIntervalRed = setInterval(blinkLEDRed, 250);
 };
  
