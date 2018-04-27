@@ -24,6 +24,8 @@ console.log('API call in 10 seconds');
  setTimeout(calcpercent(100, 10), 3000);
  setTimeout(calcpercent(99, 100),   6000);
  setTimeout(calcpercent(10, 100), 9000);
+ var blinkIntervalGreen;
+ var blinkIntervalRed;
 // Calculate Percentage and Turn motor/Turn on LED________________________________________________________________________________________________
  
 function calcpercent(openCandleCurrent, openCandleOneHour) {
@@ -63,17 +65,17 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
  
 function LEDGreenFlash(){
     console.log('BTC is Over 5% Up');
-    if (LEDGreen.readSync() === 1 | LEDGreen2.readSync() === 1){return} 
-    cleanUpRedBlinking();
-    var blinkIntervalGreen = setInterval(blinkLEDGreen, 250);
+   
+    cleanUpBlinking();
+    blinkIntervalGreen = setInterval(blinkLEDGreen, 250);
  
 };
  
 function LEDRedFlash(){
     console.log('BTC is Over 5% Down');
     if (LEDRed.readSync() === 1 | LEDRed2.readSync() === 1){return}
-    cleanUpGreenBlinking();
-    var blinkIntervalRed = setInterval(blinkLEDRed, 250); 
+    cleanUpBlinking();
+    blinkIntervalRed = setInterval(blinkLEDRed, 250); 
 };
  
 // LED FLASH BY COLOR ________________________________________________________________________________________________
@@ -119,11 +121,11 @@ function blinkLEDRed() {
     }
 };
 
-function cleanUpGreenBlinking(){
-    if(blinkIntervalGreen != undefined) {clearInterval(blinkIntervalGreen)}
-}
-function cleanUpRedBlinking(){
-    if(blinkIntervalRed != undefined) {clearInterval(blinkIntervalRed)}
+function cleanUpBlinking(){
+    clearInterval(blinkIntervalGreen);
+    blinkIntervalGreen = null;
+    clearInterval(blinkIntervalRed);
+    blinkIntervalRed = null;
 }
  
 // LED FUNCTIONS ________________________________________________________________________________________________
