@@ -94,26 +94,26 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
  
     if (Math.abs(btcPercentChange) >= 5) {
         if (openCandleCurrent > openCandleOneHour) {
+            motor.setSpeed(40);
             motor.forward();
-            motor.setSpeed(120);
             console.log('Motor Speed changed here 1');
             LEDGreenFlash();
         } else {
+            motor.setSpeed(40);
             motor.backward();
-            motor.setSpeed(120);
             console.log('Motor Speed changed here 2');
             LEDRedFlash();
         };
     } else {
  
         if (openCandleCurrent > openCandleOneHour) {
+            motor.setSpeed(20);
             motor.forward();
-            motor.setSpeed(60);
             console.log('Motor Speed changed here 3');
             LEDGreenOn();
         } else {
+            motor.setSpeed(20);
             motor.backward();
-            motor.setSpeed(60);
             console.log('Motor Speed changed here 4');
             LEDRedOn();
         };
