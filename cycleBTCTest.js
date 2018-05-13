@@ -51,7 +51,7 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
             console.log('Motor Speed changed here 3');
             LEDGreenOn();
         } else {
-            motor.forward();
+            motor.backward();
             motor.setSpeed(60);
             console.log('Motor Speed changed here 4');
             LEDRedOn();
