@@ -1,4 +1,4 @@
-var Gdax = require('gdax');
+ var Gdax = require('gdax');
 var btcClient = new Gdax.PublicClient();
 console.log('Created GDAX Bitcoin Client');
  
@@ -100,7 +100,7 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
             LEDGreenFlash();
         } else {
             motor.setSpeed(40);
-            motor.backward();
+            motor.forward();
             console.log('Motor Speed changed here 2');
             LEDRedFlash();
         };
@@ -113,7 +113,7 @@ function calcpercent(openCandleCurrent, openCandleOneHour) {
             LEDGreenOn();
         } else {
             motor.setSpeed(20);
-            motor.backward();
+            motor.forward();
             console.log('Motor Speed changed here 4');
             LEDRedOn();
         };
